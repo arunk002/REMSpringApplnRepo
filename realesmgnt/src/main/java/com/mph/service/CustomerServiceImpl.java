@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mph.dao.BuyerDao;
 import com.mph.dao.SellerDao;
 import com.mph.entity.Buyer;
+import com.mph.entity.Property;
 import com.mph.entity.Seller;
 
 @Service
@@ -83,8 +84,14 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public void reomveFromWishlist(int buyerId, int propertyId) {
-		buyerDao.reomveFromWishlist(buyerId,propertyId);
+	public List<Property> reomveFromWishlist(int buyerId, int propertyId) {
+		return buyerDao.reomveFromWishlist(buyerId,propertyId);
+		
+	}
+
+	@Override
+	public List<Property> addFromWishlist(int buyerId, int propertyId) {
+		return buyerDao.addFromWishlist(buyerId,propertyId);		
 	}
 	
 	

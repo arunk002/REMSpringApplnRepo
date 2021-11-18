@@ -3,6 +3,7 @@ package com.mph.service;
 import java.util.List;
 
 import com.mph.entity.Buyer;
+import com.mph.entity.Property;
 import com.mph.entity.Seller;
 
 public interface CustomerService {
@@ -23,6 +24,7 @@ public interface CustomerService {
 	public Buyer getBuyerByEmailandPassword(String email, String password);
 	
 	//Wishlist
-	public void reomveFromWishlist(int buyerId,int propertyId);
+	public List<Property> reomveFromWishlist(int buyerId,int propertyId);
+	public List<Property> addFromWishlist(int buyerId, int propertyId);
 
 }

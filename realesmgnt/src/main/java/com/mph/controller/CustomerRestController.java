@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mph.entity.Buyer;
 import com.mph.entity.Customer;
 import com.mph.entity.LoginUser;
+import com.mph.entity.Property;
 import com.mph.entity.Seller;
 import com.mph.service.CustomerService;
 
@@ -103,9 +104,17 @@ public class CustomerRestController {
 	
 	
 	@GetMapping("/wishlistremove/{buyerid}/{propertyId}")
-	public void reomveFromWishlist(@PathVariable("propertyId") int propertyId,@PathVariable("buyerid") int buyerId) {
+	public List<Property> reomveFromWishlist(@PathVariable("propertyId") int propertyId,@PathVariable("buyerid") int buyerId) {
 		System.out.println("Buyer by id");
-		customerService.reomveFromWishlist(buyerId,propertyId);
+		List<Property> proplist = customerService.reomveFromWishlist(buyerId,propertyId);
+		return proplist;
+	}
+	
+	@GetMapping("/wishlistadd/{buyerid}/{propertyId}")
+	public List<Property> addFromWishlist(@PathVariable("propertyId") int propertyId,@PathVariable("buyerid") int buyerId) {
+		System.out.println("Buyer by id");
+		List<Property> proplist = customerService.addFromWishlist(buyerId,propertyId);
+		return proplist;
 	}
 	
 	
@@ -115,8 +124,7 @@ public class CustomerRestController {
 	
 	@PostMapping("/blogin")
 	public LoginUser loginByBuyer(@RequestBody  LoginUser user) throws Exception {
-		System.out.println(user);
-		System.out.println("customer LOgin");
+		System.out.println("customer request by  " + user.getEmail());
 		String tempEmail = user.getEmail();
 		String tempPass = user.getPassword();
 		Buyer buyer = new Buyer();
@@ -140,7 +148,7 @@ public class CustomerRestController {
 	
 	@PostMapping("/slogin")
 	public LoginUser loginBySeller(@RequestBody LoginUser user) throws Exception {
-		System.out.println("customer LOgin");
+		System.out.println("customer request by  " + user.getEmail());
 		String tempEmail = user.getEmail();
 		String tempPass = user.getPassword();
 		Seller seller = new Seller();
@@ -153,6 +161,21 @@ public class CustomerRestController {
 			loginUser.setEmail(seller.getEmail());
 			loginUser.setPassword(seller.getPassword());
 			loginUser.setUser("seller");
+			return loginUser;
+		}else {
+			throw new Exception("Bad Credentials");
+		}
+		
+	}
+	
+	@PostMapping("/adminlogin")
+	public LoginUser adminLogin(@RequestBody LoginUser user) throws Exception {
+		System.out.println("Admin Login request by  " + user.getEmail());
+		if((user.getEmail() != null) || (user.getPassword() !=null)) {
+			throw new Exception("Enter valid password and mail");
+		}
+		else if((user.getEmail().equals("admin@mail.com")) && (user.getPassword().equals("admin"))) {
+			LoginUser loginUser = new LoginUser(101, "admin@mail.com", "admin", "admin");
 			return loginUser;
 		}else {
 			throw new Exception("Bad Credentials");

@@ -20,6 +20,8 @@ public class CustomerDaoImpl implements BuyerDao, SellerDao {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
+	@Autowired
+	private PropertyDao propertyDao;
 	
 	protected Session getSession() {
 		return sessionFactory.getCurrentSession();
@@ -138,7 +140,7 @@ public class CustomerDaoImpl implements BuyerDao, SellerDao {
 	}
 
 	@Override
-	public void reomveFromWishlist(int buyerId,int propertyId) {
+	public List<Property> reomveFromWishlist(int buyerId,int propertyId) {
 		Buyer buyer = getBuyerById(buyerId);
 		String wishstr = buyer.getWishlist();
 		List<String> wishList = Arrays.asList(wishstr.split(","));
@@ -150,7 +152,24 @@ public class CustomerDaoImpl implements BuyerDao, SellerDao {
 		}
 		buyer.setWishlist(finalStr);
 		updateBuyer(buyer);
+		return propertyDao.getWishListByBuyerId(buyerId);
 
+	}
+
+	@Override
+	public List<Property> addFromWishlist(int buyerId, int propertyId) {
+		Buyer buyer = getBuyerById(buyerId);
+		String wishstr = buyer.getWishlist();
+		List<String> wishList = Arrays.asList(wishstr.split(","));
+		Set<String> myset = wishList.stream().collect(Collectors.toSet());
+		myset.add(propertyId+"");
+		String finalStr = "" ;
+		for(String fstr : myset) {
+			finalStr = finalStr+fstr+",";
+		}
+		buyer.setWishlist(finalStr);
+		updateBuyer(buyer);
+		return propertyDao.getWishListByBuyerId(buyerId);
 	}
 	
 	

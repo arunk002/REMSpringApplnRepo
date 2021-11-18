@@ -3,6 +3,7 @@ package com.mph.dao;
 import java.util.List;
 
 import com.mph.entity.Buyer;
+import com.mph.entity.Property;
 
 public interface BuyerDao {
 	public List<Buyer> getBuyerList();
@@ -13,5 +14,6 @@ public interface BuyerDao {
 	
 	//LOGIN
 	public Buyer getBuyerByEmailandPassword(String email, String password);
-	public void reomveFromWishlist(int buyerId,int propertyId);
+	public List<Property> reomveFromWishlist(int buyerId,int propertyId);
+	public List<Property> addFromWishlist(int buyerId, int propertyId);
 }
