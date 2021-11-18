@@ -6,6 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * @author abish
+ *
+ */
 @Entity
 @Table(name = "AABUYER")
 public class Buyer extends Customer {
@@ -31,6 +35,8 @@ public class Buyer extends Customer {
 		this.zipcode = zipcode;
 	}
 
+
+	
 	public String getAddress() {
 		return this.address;
 	}

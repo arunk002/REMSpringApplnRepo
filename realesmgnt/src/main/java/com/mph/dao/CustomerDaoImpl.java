@@ -165,6 +165,9 @@ public class CustomerDaoImpl implements BuyerDao, SellerDao {
 		for(String fstr : myset) {
 			finalStr = finalStr+fstr+",";
 		}
+		if(finalStr.equals("")) {
+			finalStr = null;
+		}
 		buyer.setWishlist(finalStr);
 		updateBuyer(buyer);
 		return propertyDao.getWishListByBuyerId(buyerId);

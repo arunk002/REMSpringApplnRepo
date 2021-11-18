@@ -141,6 +141,8 @@ public class CustomerRestController {
 		LoginUser loginUser = new LoginUser();
 		if(tempEmail != null && tempPass !=null) {
 			buyer = customerService.getBuyerByEmailandPassword(user.getEmail(), user.getPassword());
+		}else {
+			throw new Exception("Bad Credentials");
 		}
 		if(buyer != null) {
 			loginUser.setId(buyer.getBuyerId());
