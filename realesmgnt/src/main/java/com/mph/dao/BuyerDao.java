@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mph.entity.Buyer;
 import com.mph.entity.Property;
+import com.mph.entity.Seller;
 
 public interface BuyerDao {
 	public List<Buyer> getBuyerList();
@@ -16,4 +17,5 @@ public interface BuyerDao {
 	public Buyer getBuyerByEmailandPassword(String email, String password);
 	public List<Property> reomveFromWishlist(int buyerId,int propertyId);
 	public List<Property> addFromWishlist(int buyerId, int propertyId);
+	public Buyer getBuyerByEmail(String email);
 }

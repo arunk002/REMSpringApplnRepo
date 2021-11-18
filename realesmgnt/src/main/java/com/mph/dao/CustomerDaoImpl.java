@@ -87,10 +87,10 @@ public class CustomerDaoImpl implements BuyerDao, SellerDao {
 
 	@Override
 	public String updateBuyer(Buyer buyer) {
-		Query query = getSession().createQuery("update Buyer set fname=:fnam, lname=:lnam,phoneNumber=:pn, email=:mail, pan=:pan, adhar=:adr, password=:pass, wishlist=:wl where buyerid=:sid");
+		Query query = getSession().createQuery("update Buyer set fname=:fnam, lname=:lnam,phoneNumber=:pn, email=:mail, pan=:pan, adhar=:adr, password=:pass, wishlist=:wl, address=:ad, country=:con,zipcode=:zip where buyerid=:sid");
 		query.setParameter("fnam", buyer.getfName()).setParameter("lnam", buyer.getlName()).setParameter("pn", buyer.getPhoneNumber()).setParameter("mail", buyer.getEmail());
 		query.setParameter("pan", buyer.getPan()).setParameter("adr", buyer.getAdhar()).setParameter("pass", buyer.getPassword()).setParameter("sid", buyer.getBuyerId());
-		query.setParameter("wl", buyer.getWishlist());
+		query.setParameter("wl", buyer.getWishlist()).setParameter("ad", buyer.getAddress()).setParameter("con", buyer.getCountry()).setParameter("zip", buyer.getZipcode());
 		int p = query.executeUpdate();
 		System.out.println(p + " records updated");
 		return buyer.getBuyerId() + "Updated Succesfully";
@@ -126,15 +126,30 @@ public class CustomerDaoImpl implements BuyerDao, SellerDao {
 	
 //	-------------------------login---------------------------
 	
-	
+	@Override
 	public Buyer getBuyerByEmailandPassword(String email, String password) {
 		Query query = getSession().createQuery("from Buyer where email=:mail and password=:pass").setParameter("mail", email).setParameter("pass", password);
 		Buyer buyer = (Buyer) query.uniqueResult();
 		return buyer;
 	}
 	
+	@Override
+	public Buyer getBuyerByEmail(String email) {
+		Query query = getSession().createQuery("from Buyer where email=:mail").setParameter("mail", email);
+		Buyer buyer = (Buyer) query.uniqueResult();
+		return buyer;
+	}
+	
+	@Override
 	public Seller getSellerByEmailandPassword(String email, String password) {
 		Query query = getSession().createQuery("from Seller where email=:mail and password=:pass").setParameter("mail", email).setParameter("pass", password);
+		Seller seller = (Seller) query.uniqueResult();
+		return seller;
+	}
+	
+	@Override
+	public Seller getSellerByEmail(String email) {
+		Query query = getSession().createQuery("from Seller where email=:mail").setParameter("mail", email);
 		Seller seller = (Seller) query.uniqueResult();
 		return seller;
 	}
@@ -171,6 +186,7 @@ public class CustomerDaoImpl implements BuyerDao, SellerDao {
 		updateBuyer(buyer);
 		return propertyDao.getWishListByBuyerId(buyerId);
 	}
+
 	
 	
 	

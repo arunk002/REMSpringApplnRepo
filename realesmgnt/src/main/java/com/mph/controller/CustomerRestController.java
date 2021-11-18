@@ -50,7 +50,12 @@ public class CustomerRestController {
 	}
 
 	@PostMapping("/createseller")
-	public void createSeller(@RequestBody Seller seller) {
+	public void createSeller(@RequestBody Seller seller) throws Exception {
+		String tempmail = seller.getEmail();
+		Seller newSeller = customerService.getSellerByEmail(tempmail);
+		if(newSeller != null) {
+			throw new Exception();
+		}
 		String report = customerService.createSeller(seller);
 		System.out.println(report);
 	}
@@ -77,7 +82,12 @@ public class CustomerRestController {
 	}
 
 	@PostMapping("/registerBuyer")
-	public void createBuyer(@RequestBody Buyer buyer) {
+	public void createBuyer(@RequestBody Buyer buyer) throws Exception {
+		String tempmail = buyer.getEmail();
+		Buyer newBuyer = customerService.getBuyerByEmail(tempmail);
+		if(newBuyer != null) {
+			throw new Exception("Email is Already registered");
+		}
 		String report = customerService.createBuyer(buyer);
 		System.out.println("from register buyrer " + report);
 	}

@@ -11,5 +11,6 @@ public interface SellerDao {
 	public String createSeller(Seller seller);
 	public Seller getSellerById(int sellerId);
 	public Seller getSellerByEmailandPassword(String email, String password);
+	public Seller getSellerByEmail(String email);
 
 }

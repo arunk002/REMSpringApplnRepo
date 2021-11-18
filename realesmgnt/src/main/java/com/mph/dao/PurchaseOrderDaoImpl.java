@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.mph.entity.Property;
 import com.mph.entity.PurchaseOrder;
 
 @Repository
@@ -15,6 +16,8 @@ public class PurchaseOrderDaoImpl implements PurchaseOrderDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
+	@Autowired
+	PropertyDao propertyDao;
 	
 	protected Session getSession() {
 		return sessionFactory.getCurrentSession();
@@ -42,6 +45,10 @@ public class PurchaseOrderDaoImpl implements PurchaseOrderDao {
 
 	@Override
 	public String deletePurchaseOrder(int purchaseId) {
+		PurchaseOrder purchaseorder = getPurchaseOrderById(purchaseId);
+		Property property = propertyDao.getPropertyById(purchaseorder.getProperty().getProperty_Id());
+		property.setStatus(true);
+		propertyDao.updateProperty(property);
 		Query query = getSession().createQuery("delete from PurchaseOrder where purchaseId=:id").setParameter("id", purchaseId);
 		int p = query.executeUpdate();
 		if(p>0) {
@@ -54,6 +61,9 @@ public class PurchaseOrderDaoImpl implements PurchaseOrderDao {
 
 	@Override
 	public String createPurchaseOrder(PurchaseOrder purchaseorder) {
+		Property property = propertyDao.getPropertyById(purchaseorder.getProperty().getProperty_Id());
+		property.setStatus(false);
+		propertyDao.updateProperty(property);
 		purchaseorder.setDate(new java.util.Date(System.currentTimeMillis()));
 		getSession().save(purchaseorder);
 		return "PurchaseOrder added succesfully";

@@ -13,12 +13,17 @@ public interface CustomerService {
 	public String deleteSeller(int sellerId);
 	public String createSeller(Seller seller);
 	public Seller getSellerById(int sellerId);
+	public Seller getSellerByEmail(String email);
+
 	//Buyer
 	public List<Buyer> getBuyerList();
 	public String updateBuyer(Buyer buyer);
 	public String deleteBuyer(int buyerId);
 	public String createBuyer(Buyer buyer);
 	public Buyer getBuyerById(int buyerId);
+	public Buyer getBuyerByEmail(String email);
+
+	
 //	LOGIN
 	public Seller getSellerByEmailandPassword(String email, String password);
 	public Buyer getBuyerByEmailandPassword(String email, String password);

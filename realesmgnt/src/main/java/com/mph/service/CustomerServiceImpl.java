@@ -93,6 +93,16 @@ public class CustomerServiceImpl implements CustomerService{
 	public List<Property> addFromWishlist(int buyerId, int propertyId) {
 		return buyerDao.addFromWishlist(buyerId,propertyId);		
 	}
+
+	@Override
+	public Seller getSellerByEmail(String email) {
+		return sellerDao.getSellerByEmail(email);
+	}
+
+	@Override
+	public Buyer getBuyerByEmail(String email) {
+		return buyerDao.getBuyerByEmail(email);
+	}
 	
 	
 
