@@ -171,7 +171,7 @@ public class CustomerRestController {
 	@PostMapping("/adminlogin")
 	public LoginUser adminLogin(@RequestBody LoginUser user) throws Exception {
 		System.out.println("Admin Login request by  " + user.getEmail());
-		if((user.getEmail() != null) || (user.getPassword() !=null)) {
+		if((user.getEmail() == null) || (user.getPassword() ==null)) {
 			throw new Exception("Enter valid password and mail");
 		}
 		else if((user.getEmail().equals("admin@mail.com")) && (user.getPassword().equals("admin"))) {
