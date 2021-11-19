@@ -12,13 +12,17 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
-	<context:component-scan
-		base-package="com.mph.*/"></context:component-scan>
+<context:component-scan base-package="com.mph.*,com.mph.logging" />
 	<mvc:annotation-driven />
 	<tx:annotation-driven />
 
+	<aop:aspectj-autoproxy />
+
 	<context:property-placeholder
 		location="classpath:database.properties" />
+
+	<context:property-placeholder
+		location="classpath:log4j.properties" />
 
 	<bean id="jspViewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -65,7 +69,7 @@
 
 
 
-	<bean id="buyer" class="com.mph.entity.Buyer"></bean> 
+	<bean id="buyer" class="com.mph.entity.Buyer"></bean>
 	<bean id="seller" class="com.mph.entity.Seller"></bean>
 	<bean id="property" class="com.mph.entity.Property"></bean>
 	<bean id="purchaseOrder" class="com.mph.entity.PurchaseOrder"></bean>
@@ -74,14 +78,20 @@
 	<bean id="sellerDao" class="com.mph.dao.CustomerDaoImpl"></bean>
 	<bean id="buyerDao" class="com.mph.dao.CustomerDaoImpl"></bean>
 	<bean id="propertyDao" class="com.mph.dao.PropertyDaoImpl"></bean>
-	<bean id="purchaseOrderDao" class="com.mph.dao.PurchaseOrderDaoImpl"></bean>
-	
-	
-	<bean id="propertyService" class="com.mph.service.PropertyServiceImpl"></bean>
-	<bean id="purchaseOrderService" class="com.mph.service.PurchaseOrderServiceImpl"></bean>
-	<bean id="customerService" class="com.mph.service.CustomerServiceImpl"></bean>
+	<bean id="purchaseOrderDao"
+		class="com.mph.dao.PurchaseOrderDaoImpl"></bean>
 
 
+	<bean id="propertyService"
+		class="com.mph.service.PropertyServiceImpl"></bean>
+	<bean id="purchaseOrderService"
+		class="com.mph.service.PurchaseOrderServiceImpl"></bean>
+	<bean id="customerService"
+		class="com.mph.service.CustomerServiceImpl"></bean>
+
+
+
+	<bean id="loggingAspects" class="com.mph.logging.LoggingAspects" />
 
 
 

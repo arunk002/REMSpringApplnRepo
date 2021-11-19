@@ -10,5 +10,6 @@ public interface PurchaseOrderService {
 	public String deletePurchaseOrder(int sellerId);
 	public String createPurchaseOrder(PurchaseOrder purchaseorder);
 	public PurchaseOrder getPurchaseOrderById(int purchaseId);
+	public List<PurchaseOrder> getOrderByBuyerId(int buyerId);
 
 }

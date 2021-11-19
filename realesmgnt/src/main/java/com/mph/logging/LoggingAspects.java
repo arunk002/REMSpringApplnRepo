@@ -10,49 +10,51 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.log4j.*;
+//import org.apache.logging.log4j.LogManager;
+
+//import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+
+import org.apache.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.aopalliance.aop.*;
+
 
 @Aspect
 @Component
-public class LoggingAspect {
+public class LoggingAspects {
  
-    Logger log = LogManager.getLogger(this.getClass());
- 
-    @Pointcut("within(@org.springframework.stereotype.Controller *)")
-    public void controller() {
-    }
-    
+	//Logger log = LogManager.getLogger(this.getClass());
+	 Logger log = LogManager.getLogger(getClass().getName());
+   
    
     @Pointcut("within(@org.springframework.web.bind.annotation.RestController *)")
     public void restController() {
     }
     
     @Pointcut("execution(* *.*(..))")
-    protected void allMethod() {
+    public void allMethod() {
     }
  
     @Pointcut("execution(public * *(..))")
-    protected void loggingPublicOperation() {
+    public void loggingPublicOperation() {
     }
  
     @Pointcut("execution(* *.*(..))")
-    protected void loggingAllOperation() {
+    public void loggingAllOperation() {
     }
  
     @Pointcut("within(com.mph.logging..*)")
-    private void logAnyFunctionWithinResource() {
+    public void logAnyFunctionWithinResource() {
     }
  
     //before -> Any resource annotated with @Controller annotation 
     //and all method and function taking HttpServletRequest as first parameter
-    @Before("controller() && allMethod() && restController() && args(..,request)")
+    @Before("allMethod() && restController() && args(..,request)")
     public void logBefore(JoinPoint joinPoint, HttpServletRequest request) {
  
         log.debug("Entering in Method :  " + joinPoint.getSignature().getName());
@@ -75,20 +77,20 @@ public class LoggingAspect {
     }
     //After -> All method within resource annotated with @Controller annotation 
     // and return a  value
-    @AfterReturning(pointcut = "controller() && allMethod() && restController()", returning = "result")
+    @AfterReturning(pointcut = "allMethod() && restController()", returning = "result")
     public void logAfter(JoinPoint joinPoint, Object result) {
         String returnValue = this.getValue(result);
         log.debug("Method Return value : " + returnValue);
     }
     //After -> Any method within resource annotated with @Controller annotation 
     // throws an exception ...Log it
-    @AfterThrowing(pointcut = "controller() && allMethod() && restController()", throwing = "exception")
+    @AfterThrowing(pointcut = "allMethod() && restController()", throwing = "exception")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable exception) {
         log.error("An exception has been thrown in " + joinPoint.getSignature().getName() + " ()");
         log.error("Cause : " +  exception.getCause());
     }
     //Around -> Any method within resource annotated with @Controller annotation 
-    @Around("controller() && allMethod() && restController()")
+   @Around("allMethod() && restController()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
          
         long start = System.currentTimeMillis();

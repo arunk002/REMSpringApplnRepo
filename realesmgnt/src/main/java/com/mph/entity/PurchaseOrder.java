@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 @Entity
@@ -33,6 +35,7 @@ public class PurchaseOrder {
 	
 	@OneToOne
 	@JoinColumn(name = "sellerId")
+	@JsonIgnore
 	private Seller seller;
 
 	private long maxAcceptedPrice;
@@ -116,7 +119,7 @@ public class PurchaseOrder {
 	@Override
 	public String toString() {
 		return "PurchaseOrder [purhcaseId=" + purhcaseId + ", buyer=" + buyer + ", maxAcceptedPrice=" + maxAcceptedPrice
-				+ ", date=" + time + ", property=" + property + ", seller=" + seller.getSellerId() + "]";
+				+ ", date=" + time+ "]";
 	}
 
 }

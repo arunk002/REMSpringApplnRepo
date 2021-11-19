@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mph.dao.PropertyDao;
 import com.mph.dao.SellerDao;
+import com.mph.entity.Buyer;
 import com.mph.entity.Property;
 import com.mph.entity.Seller;
 
@@ -46,8 +47,18 @@ public class PropertyServiceImpl implements PropertyService {
 
 	@Override
 	public String deleteProperty(int property_Id) {
-		
 		return propertyDao.deleteProperty(property_Id);
+	}
+
+	@Override
+	public List<Property> getPropertyBySellerId(int sellerId) {
+		return propertyDao.getPropertyBySellerId(sellerId);
+	}
+
+	@Override
+	public List<Property> getWishListByBuyerId(int buyerId) {
+		// TODO Auto-generated method stub
+		return propertyDao.getWishListByBuyerId(buyerId);
 	}
 
 	

@@ -40,4 +40,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		return purchaseOrderDao.getPurchaseOrderById(purchaseId);
 	}
 
+	@Override
+	public List<PurchaseOrder> getOrderByBuyerId(int buyerId) {
+		return purchaseOrderDao.getOrderByBuyerId(buyerId);
+	}
+
 }
