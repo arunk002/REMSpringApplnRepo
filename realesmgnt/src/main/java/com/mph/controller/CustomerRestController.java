@@ -2,6 +2,7 @@ package com.mph.controller;
 
 import java.util.List;
 
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.hibernate.Session;
@@ -44,17 +45,14 @@ public class CustomerRestController {
 	@Autowired
 	CustomerService customerService;
 	
-	private static final Logger logger = Logger.getLogger("CustomerRestController.class");
-
-
+	
 	/**
 	 * This returns the list of sellers from database to the API in the from of ResponseEntity
 	 * @return sellerlist List of all sellers available in the databse 
 	 */
 	@GetMapping("/getseller")
 	public ResponseEntity<List<Seller>> getSeller() {
-		logger.info("GETTING HTTP REQUEST FROM ANGULAR APPLICATION TO LIST EMPLOYEES");
-		System.out.println(logger.getName() + "   " + logger.getLevel());
+		
 
 		PropertyConfigurator.configure(CustomerRestController.class.getClassLoader().getResource("log4j.properties"));
 		List<Seller> sellerlist = customerService.getSellerList();
